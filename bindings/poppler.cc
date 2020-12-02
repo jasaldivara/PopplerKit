@@ -125,6 +125,8 @@ int poppler_init(const unsigned char* fcConfigPath,
 
 #ifdef POPPLER_0_6
       globalParams = new GlobalParams();
+#elif POPPLER_0_85
+      globalParams = std::make_unique<GlobalParams>(nullptr);
 #else
       globalParams = new GlobalParams(NULL);
 #endif

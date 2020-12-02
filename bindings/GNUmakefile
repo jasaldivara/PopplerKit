@@ -57,4 +57,8 @@ ifeq ($(POPPLER_0_20), YES)
    bindings_CCFLAGS += -DPOPPLER_0_20
 endif
 
+ifeq ($(POPPLER_0_85), YES)
+   bindings_CCFLAGS += -DPOPPLER_0_20 -DPOPPLER_0_85
+endif
+
 include $(GNUSTEP_MAKEFILES)/subproject.make
