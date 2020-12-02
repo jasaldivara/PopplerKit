@@ -29,7 +29,11 @@
 void* poppler_text_device_create(int use_phys_layout, int use_raw_text_order, int append)
 {
    BEGIN_SYNCHRONIZED;
-      void* textDevice = new TextOutputDev(NULL, use_phys_layout, use_raw_text_order, append);
+      void* textDevice = new TextOutputDev(NULL, use_phys_layout,
+#ifdef POPPLER_0_20
+					   0,
+#endif
+                                           use_raw_text_order, append);
    END_SYNCHRONIZED;
 
    return textDevice;
@@ -56,11 +60,14 @@ int poppler_text_display_page(void* text_device, void* poppler_page, void* poppl
 #endif
 			   crop, 
 #ifdef POPPLER_0_6
-				gFalse, // printing
+				gFalse // printing
 #else
-				NULL, // links
+				NULL // links
 #endif
-				PDF_DOC(poppler_document)->getCatalog()));
+#ifndef POPPLER_0_20
+				,PDF_DOC(poppler_document)->getCatalog()
+#endif
+				));
    return 1;
 }
 
@@ -78,6 +85,9 @@ int poppler_text_find(void* text_device, unsigned int* text_utf32, unsigned text
                                                    start_at_last, stop_at_last,
 #ifndef POPPLER_0_4 // 0.5, 0.6
 						   gTrue, gFalse,
+#endif
+#ifdef POPPLER_0_20
+						   gFalse,
 #endif
                                                    x_min, y_min, x_max, y_max);
    END_SYNCHRONIZED;

@@ -57,7 +57,13 @@ void poppler_splash_device_start_doc(void* output_dev, void* poppler_document)
      return;
    }
     
-   SYNCHRONIZED(SPLASH_DEV(output_dev)->startDoc(PDF_DOC(poppler_document)->getXRef()));
+   SYNCHRONIZED(SPLASH_DEV(output_dev)->startDoc(
+#ifdef POPPLER_0_20
+	PDF_DOC(poppler_document)
+#else
+	PDF_DOC(poppler_document)->getXRef()
+#endif
+   ));
 }
 
 void poppler_splash_device_destroy(void* output_dev)
@@ -92,11 +98,14 @@ int poppler_splash_device_display_slice(void* output_dev, void* poppler_page,
                                                  (int)sliceX, (int)sliceY,
                                                  (int)sliceW, (int)sliceH,
 #ifdef POPPLER_0_6
-												 gFalse, // printing
+												 gFalse // printing
 #else
-                                                 NULL, // Links
+                                                 NULL // Links
 #endif
-                                                 PDF_DOC(poppler_document)->getCatalog()));
+#ifndef POPPLER_0_20
+                                                 , PDF_DOC(poppler_document)->getCatalog()
+#endif
+                                                 ));
 
    return 1;
 }
