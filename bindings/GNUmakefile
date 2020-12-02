@@ -21,39 +21,36 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 -include ../config.make
 
-# use cplusplus compiler
-CC = ${CXX}
-
 SUBPROJECT_NAME=bindings
 
-bindings_CFLAGS = -g 
+bindings_CCFLAGS = -g 
 
 bindings_OBJCFLAGS = -Wno-import
 
-bindings_C_FILES = \
-poppler.c \
-poppler_document.c \
-poppler_page.c \
-poppler_splash_renderer.c \
-poppler_text.c 
+bindings_CC_FILES = \
+poppler.cc \
+poppler_document.cc \
+poppler_page.cc \
+poppler_splash_renderer.cc \
+poppler_text.cc 
 
 bindings_OBJC_FILES = \
 poppler_objc.m
 
 ifeq ($(HAVE_CAIRO), YES)
-   bindings_C_FILES += poppler_cairo_img_renderer.c
+   bindings_CC_FILES += poppler_cairo_img_renderer.cc
 endif
 
 ifeq ($(POPPLER_0_4), YES)
-   bindings_CFLAGS += -DPOPPLER_0_4
+   bindings_CCFLAGS += -DPOPPLER_0_4
 endif
 
 ifeq ($(POPPLER_0_5), YES)
-   bindings_CFLAGS += -DPOPPLER_0_5
+   bindings_CCFLAGS += -DPOPPLER_0_5
 endif
 
 ifeq ($(POPPLER_0_6), YES)
-   bindings_CFLAGS += -DPOPPLER_0_6
+   bindings_CCFLAGS += -DPOPPLER_0_6
 endif
 
 include $(GNUSTEP_MAKEFILES)/subproject.make
