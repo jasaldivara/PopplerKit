@@ -139,9 +139,9 @@ int poppler_cairo_img_device_display_slice(void* output_dev, void* poppler_page,
                                                  (double)hDPI, (double)vDPI,
                                                  rotate,
 #ifdef POPPLER_0_5
-						 gTrue, // use MediaBox
+						 true, // use MediaBox
 #endif
-                                                 gTrue, // Crop
+                                                 true, // Crop
                                                  (int)sliceX, (int)sliceY,
                                                  (int)sliceW, (int)sliceH,
                                                  NULL, // Links

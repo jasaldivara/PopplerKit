@@ -37,13 +37,13 @@ void* poppler_splash_device_create(int bg_red, int bg_green, int bg_blue)
       SplashColor white;
 #ifdef POPPLER_0_4
       white.rgb8 = splashMakeRGB8(bg_red, bg_green, bg_blue);
-      void* splashDevice = new SplashOutputDev(splashModeRGB8, gFalse, white);
+      void* splashDevice = new SplashOutputDev(splashModeRGB8, false, white);
 #else // 0.5, 0.6
       white[0] = bg_red;
       white[1] = bg_green;
       white[2] = bg_blue;
       // I'm not sure what bitmapRowPad should be, 1 is just a guess.
-      void* splashDevice = new SplashOutputDev(splashModeRGB8, 1, gFalse, white);
+      void* splashDevice = new SplashOutputDev(splashModeRGB8, 1, false, white);
 #endif
    END_SYNCHRONIZED;
    
@@ -92,13 +92,13 @@ int poppler_splash_device_display_slice(void* output_dev, void* poppler_page,
                                                  (double)hDPI, (double)vDPI,
                                                  rotate,
 #ifndef POPPLER_0_4 // 0.5, 0.6
-						 gTrue, // useMediaBox
+						 true, // useMediaBox
 #endif
-                                                 gTrue, // Crop
+                                                 true, // Crop
                                                  (int)sliceX, (int)sliceY,
                                                  (int)sliceW, (int)sliceH,
 #ifdef POPPLER_0_6
-												 gFalse // printing
+												 false // printing
 #else
                                                  NULL // Links
 #endif

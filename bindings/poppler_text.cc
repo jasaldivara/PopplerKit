@@ -56,11 +56,11 @@ int poppler_text_display_page(void* text_device, void* poppler_page, void* poppl
    SYNCHRONIZED(PAGE(poppler_page)->display(TEXT_DEV(text_device), 
 			   hDPI, vDPI, rotate, 
 #ifndef POPPLER_0_4
-			   gTrue, // useMediaBox
+			   true, // useMediaBox
 #endif
 			   crop, 
 #ifdef POPPLER_0_6
-				gFalse // printing
+				false // printing
 #else
 				NULL // links
 #endif
@@ -84,10 +84,10 @@ int poppler_text_find(void* text_device, unsigned int* text_utf32, unsigned text
                                                    start_at_top, stop_at_bottom,
                                                    start_at_last, stop_at_last,
 #ifndef POPPLER_0_4 // 0.5, 0.6
-						   gTrue, gFalse,
+						   true, false,
 #endif
 #ifdef POPPLER_0_20
-						   gFalse,
+						   false,
 #endif
                                                    x_min, y_min, x_max, y_max);
    END_SYNCHRONIZED;
