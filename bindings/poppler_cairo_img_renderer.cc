@@ -49,13 +49,25 @@ static void my_poppler_cairo_prepare_dev(CairoImageDev* output_dev, Page* page,
 
    if (rotate == 90 || rotate == 270) 
    {
+#ifdef POPPLER_0_4
       width = MAX((int)(page->getHeight() * scale + 0.5), 1);
       height = MAX((int)(page->getWidth() * scale + 0.5), 1);
+#endif
+#ifdef POPPLER_0_5
+      width = MAX((int)(page->getMediaHeight() * scale + 0.5), 1);
+      height = MAX((int)(page->getMediaWidth() * scale + 0.5), 1);
+#endif
    }
    else
    {
+#ifdef POPPLER_0_4
       width = MAX((int)(page->getWidth() * scale + 0.5), 1);
       height = MAX((int)(page->getHeight() * scale + 0.5), 1);
+#endif
+#ifdef POPPLER_0_5
+      width = MAX((int)(page->getMediaWidth() * scale + 0.5), 1);
+      height = MAX((int)(page->getMediaHeight() * scale + 0.5), 1);
+#endif
    }
 
    int rowstride = width * 4;
@@ -64,7 +76,11 @@ static void my_poppler_cairo_prepare_dev(CairoImageDev* output_dev, Page* page,
 
    cairo_surface_t* surface = cairo_image_surface_create_for_data(data, CAIRO_FORMAT_ARGB32, width, height, rowstride);
 
+#ifdef POPPLER_0_5
+   output_dev->device->setCairo(cairo_create(surface));
+#else
    output_dev->device->setSurface(surface);
+#endif
    output_dev->surface = surface;
    output_dev->data = data;
 }
@@ -122,6 +138,9 @@ int poppler_cairo_img_device_display_slice(void* output_dev, void* poppler_page,
    SYNCHRONIZED(PAGE(poppler_page)->displaySlice(CAIRO_DEV_IMG(output_dev)->device,
                                                  (double)hDPI, (double)vDPI,
                                                  rotate,
+#ifdef POPPLER_0_5
+						 gTrue, // use MediaBox
+#endif
                                                  gTrue, // Crop
                                                  (int)sliceX, (int)sliceY,
                                                  (int)sliceW, (int)sliceH,
