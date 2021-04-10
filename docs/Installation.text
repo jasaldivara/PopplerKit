@@ -27,6 +27,8 @@ If you want cairo support in PopplerKit, you first need to install the [cairogra
 #### poppler library
 Download and install the [poppler library, v. 0.3.3](http://poppler.freedesktop.org/poppler-0.3.3.tar.gz). Although PopplerKit will work with poppler-0.3.2, it is strongly recommended to use poppler-0.3.3 since it fixes some issues with pkg-config integration (see below). If you already have the poppler-library installed, you can check it's version by executing "pkg-config --modversion poppler" from the command line.
 
+**Note: On Debian systems you have to intall the libpoppler-private-dev package.**
+
 **Important for users of poppler-0.3.2: There is a pkg-config problem with this version. When the poppler library installs it also puts the files for pkg-config (poppler.pc, poppler-splash.pc, ...) int /usr/local/lib/pkgconfig (or /usr/lib/pkgconfig). However, poppler-splash.pc has a dependency to poppler-0.3.2.pc which does not exist. Thus, you may get an error when compiling PopplerKit stating that poppler-splash is not installed. To solve this, manually create a link "poppler-0.3.2.pc" to "poppler.pc" in /usr/local/lib/pkgconfig (or /usr/lib/pkgconfig).**
 
 ### Compile and install PopplerKit
